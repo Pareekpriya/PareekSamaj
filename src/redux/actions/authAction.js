@@ -19,7 +19,7 @@ export const LOGOUT_REQ = "LOGOUT_REQ";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
 
-export const signupWithEmail = (email,password,navigate) => async(dispatch) =>{
+export const signupWithEmail = (email,password,navigate,location) => async(dispatch) =>{
     dispatch({type:SIGNUP_WITH_EMAIL_REQ})
      try{
        const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
@@ -27,7 +27,9 @@ export const signupWithEmail = (email,password,navigate) => async(dispatch) =>{
        dispatch({type:SIGNUP_WITH_EMAIL_SUCCESS,payload:user})
        localStorage.setItem("user",JSON.stringify(user))
        
-       navigate(-1);
+       const from = location?.state?.from?.pathname || '/';
+       navigate(from,{replace:true});
+
        console.log("user",user)
      }catch(err){
        dispatch({type:SIGNUP_WITH_EMAIL_FAILURE,payload:err.message});
@@ -36,7 +38,7 @@ export const signupWithEmail = (email,password,navigate) => async(dispatch) =>{
 };
 
 
-export const googleSignup = () => async(dispatch) =>{
+export const googleSignup = (navigate,location) => async(dispatch) =>{
     dispatch({type:GOOGLE_SIGNUP_REQ})
     try{
       const result = await signInWithPopup(auth,provider)
@@ -44,7 +46,10 @@ export const googleSignup = () => async(dispatch) =>{
      
       dispatch({type:GOOGLE_SIGNUP_SUCCESS,payload:user});
       localStorage.setItem("user",JSON.stringify(user));
-    //   navigate(-1);
+      
+      const from = location?.state?.from?.pathname || '/';
+      navigate(from,{replace:true});
+
       console.log("user",user);
     }catch(err){
         dispatch({type:GOOGLE_SIGNUP_FAILURE,payload:err.message});
@@ -67,7 +72,7 @@ export const logOut = (navigate) => async(dispatch) =>{
 };
 
 
-export const logIn = (email,password,navigate) => async(dispatch) => {
+export const logIn = (email,password,navigate,location) => async(dispatch) => {
     dispatch({type:LOGIN_WITH_EMAIL_REQ})
     try{
         const userCredentials = await signInWithEmailAndPassword(auth,email,password);
@@ -76,7 +81,9 @@ export const logIn = (email,password,navigate) => async(dispatch) => {
         dispatch({type:LOGIN_WITH_EMAIL_SUCCESS,payload:user});
         localStorage.setItem("user",JSON.stringify(user));
         
-        navigate('/');
+        const from = location?.state?.from?.pathname || '/';
+        navigate(from,{replace:true});
+
     }catch(err){
         dispatch({type:LOGIN_WITH_EMAIL_FAILURE,payload:err.message})
         console.error("Error in login with email:",err.message);

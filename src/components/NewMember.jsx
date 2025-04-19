@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation, Navigate } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -65,6 +65,7 @@ const NewMember = () => {
   const [familyMembers, setFamilyMembers] = useState([{ name: '', relation: '' }]);
 
   const user = useSelector((state)=>state.user)
+  const location = useLocation();
 
   // Main form state
   const [formData, setFormData] = useState({
@@ -137,9 +138,9 @@ const NewMember = () => {
     if(!user && !hasRedirected.current){
         hasRedirected.current = true;
         alert('You need to signup first!')
-        navigate('/signup')
+        navigate('/signup',{state:{from:location},replace:true});
       }
-   },[user,navigate]);
+   },[user,navigate,location]);
  
   return (
     <>

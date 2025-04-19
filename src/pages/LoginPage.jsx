@@ -129,7 +129,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const location = useLocation();
+  const location = useLocation();
 
   // const from = location.state?.from  || '/';
 
@@ -151,11 +151,11 @@ const LoginPage = () => {
       setErrorMessage("Invaid email or password,try another one!");
     }
    
-    dispatch(logIn(formData.email, formData.password,navigate));
+    dispatch(logIn(formData.email, formData.password,navigate,location));
   };
 
   const handleGoogleLogin = () => {
-    dispatch(googleSignup(()=>navigate('/')));
+    dispatch(googleSignup(navigate,location));
   }
 
   const togglePasswordVisibility = () => {

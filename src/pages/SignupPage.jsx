@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link, useLocation,Navigate } from 'react-router-dom';
 import { 
   Box, 
   Card, 
@@ -136,7 +136,7 @@ const HighlightText = styled('span')(({ theme }) => ({
 const SignupPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const location = useLocation();
+  const location = useLocation();
 
   // const from = location.state?.from  || '/';
 
@@ -165,11 +165,11 @@ const SignupPage = () => {
       setErrorMessage("Both Email and password are required!");
     };
 
-    dispatch(signupWithEmail(formData.email, formData.password,navigate));
+    dispatch(signupWithEmail(formData.email, formData.password,navigate,location));
   };
 
   const handleGoogleSignup = () => {
-    dispatch(googleSignup(()=>navigate(-1)));
+    dispatch(googleSignup(navigate,location));
   };
 
   // const handleLoginInstead = () => {
